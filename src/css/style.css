@@ -1,14 +1,29 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    background-color: #2d2d2d;
+    width: 100%;
+    height: 100%;
+    font-family: 'SF-Regular';
+    
+}
+
+/* APP HOMEPAGE */
+.available-videos {
+    border: 2px black;
+}
+
 .navbar {
     width: 100%;
     margin: 0;
     padding: 0;
-    background-color: red;
     color: black;
-    border: 2px solid black;
 }
 
 .available-videos {
     margin: 10px;
+    font-family: 'SF-Heavy';
+    color: white;
 }
 
 .navbar-ul {
@@ -16,11 +31,11 @@
     margin: 0;
     padding: 0;
     overflow: hidden;
-    background-color: rgb(201, 122, 122);
+    background-color: rgba(0, 0, 0, 0.5);
 }
 
 .navbar-li {
-    float: left;
+    float: right;
 }
 
 .navbar-a {
@@ -32,18 +47,14 @@
 }
 
 .navbar-a:hover {
-    background-color: rgb(168, 68, 68);
-}
-
-body {
-    margin: 0;
-    padding: 0;
+    background-color: blue;
 }
 
 /* MovieBlock.js */
 
 .movieBlock-div {
-    border: 2px solid black;
+    background-color: rgb(0, 0, 0, 0.3);
+    color: white;
     margin: 10px;
     width: 50%;
 }
@@ -85,4 +96,50 @@ body {
     text-align: center;
     margin: 20px 30px;
     text-decoration: none;
+}
+
+/* LOGIN PAGE */
+
+.login-div-page {
+    width: 100%;
+    height: 1000px;
+    background-image: linear-gradient(#00e1ff, rgb(136, 255, 0));
+    text-align: center;
+}
+
+.login-div {
+    padding: 20px;
+    width: 25%;
+    background-color: rgba(0, 0, 0, 0.2);
+    margin: 0px auto;
+    height: 200px;
+}
+
+.login-title {
+    color: white;
+    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+    font: "Lucida Sans Unicode";
+}
+
+.login-p {
+    color: white;
+}
+
+.facebook {
+    
+}
+
+@font-face {
+    src: url('./SF-Pro-Display-Heavy.otf');
+    font-family: 'SF-Heavy';
+}
+
+@font-face {
+    src: url('./SF-Pro-Display-Regular.otf');
+    font-family: 'SF-Regular';
+}
+
+@font-face {
+    src: url('./SF-Pro-Display-Thin.otf');
+    font-family: 'SF-Thin';
 }

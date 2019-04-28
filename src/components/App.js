@@ -37,10 +37,7 @@ class App extends Component {
           } else {
             // console.log('Document data:', myDoc.data());
             movie_votes_temp = myDoc.data().voters;// movie_votes_temp is undefined for some reason
-            //console.log(movie_votes_temp); // logs "[]"
-            //console.log(this.state.uid);
             movie_votes_temp.push(this.state.uid);
-            //console.log("Saggy balls"); // logs "undefined" YOU DUMB BITCH ITS STATE NOT PROPS
             thisdoc.set({
               voters: movie_votes_temp
             })
@@ -77,7 +74,7 @@ class App extends Component {
 
   componentDidMount() {
     const { params } = this.props.match;
-    //console.log(base.get(`users/${params.userId}/votes`));
+    console.log(this.state.uid);
     this.ref = base.syncDoc(`users/${params.userId}`, {
         context: this,
         state: 'votes'
@@ -93,23 +90,9 @@ class App extends Component {
   authHandler = async (authData) => {
     // Look up current store in firebase database
     const user = await base.get(`users/${authData.user.uid}`, { context: this });
-    //console.log(user)
-    // Claim it if there is no owner
-    // Set the state of the inventory component to reflect the current user
-    //console.log(authData);
-    // console.log(user.votes);
     this.setState({
       uid: authData.user.uid
     });
-    //console.log("Monster");
-    /*
-    var movies = firebase.firestore().collection('movies').get().then((querySnapshot) => {
-      querySnapshot.forEach((collection) => {
-          console.log("Hey there delilah");
-          this.movie_list.push(collection.id)
-        });
-    });
-    */
   }
 
   authenticate = (provider) => {
@@ -134,12 +117,12 @@ class App extends Component {
           <h1 className="available-videos">
             Available Videos
           </h1>
-          <ul>
+          <ul className="app-movielist">
             {this.movie_list.map(key => (
               <MovieBlock
                 title={key}
                 length={"1 hour"}
-                summary={"Fuck you"}
+                summary={"Summary"}
                 updateVotes={this.updateVotes}
                 uid={this.props.uid}
                 userVoted={this.state.votes.votes.includes(key) ? true : false}
@@ -149,58 +132,7 @@ class App extends Component {
         </React.Fragment>
       );
     }
-      /*
-      <React.Fragment>
-        <NavBar />
-        <p>{this.state.votes}</p>
-        <h1 className="available-videos">
-          Available Videos
-        </h1>
-        <MovieBlock 
-          title="Django: Unchained" 
-          length="2 hr 45 min"
-          summary={this.django_summary}
-          updateVotes={this.updateVotes}
-          userVoted={false}
-        />
-        <MovieBlock 
-          title="Pulp Fiction" 
-          length="2 hr 58 min"
-          summary={this.pf_summary}
-          updateVotes={this.updateVotes}
-          userVoted={false}
-        />
-      </React.Fragment>
-      */
   }
 }
 
 export default App;
-
-/*
-
-          <MovieBlock 
-            title="Django: Unchained" 
-            length="2 hr 45 min"
-            summary={this.django_summary}
-            updateVotes={this.updateVotes}
-            userVoted={false}
-          />
-          <MovieBlock 
-            title="Pulp Fiction" 
-            length="2 hr 58 min"
-            summary={this.pf_summary}
-            updateVotes={this.updateVotes}
-            userVoted={false}
-          />
-
-
-
-           <MovieBlock
-                title={base.get(`movies/${currentValue}/title`, { context: this })}
-                length={base.get(`movies/${currentValue}/length`, { context: this })}
-                summary={base.get(`movies/${currentValue}/summary`, { context: this })}
-                updateVotes={this.updateVotes}
-                userVoted={this.state.votes.includes(currentValue) ? true : false}
-              />
-*/

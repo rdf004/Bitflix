@@ -2,13 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const Login = (props) => (
-    <nav className="login">
-        <h2>App Login</h2>
-        <p>Sign in to manage your votes.</p>
-        <button className="facebook" onClick={()=>props.authenticate('Facebook')}>
-            Log in with Facebook
-        </button>
-    </nav>
+    <div className="login-div-page">
+        <div className="login-div">
+            <h2 class="login-title">Login</h2>
+            <p class="login-p">Log into Bitflix with Facebook to manage your movie votes. Don't let bandwidth limitations limit your entertainment.</p>
+            <button className="facebook" onClick={()=>props.authenticate('Facebook')}>
+                Log in with Facebook
+            </button>
+        </div>
+    </div>
 );
 
 // No this for stateless function
