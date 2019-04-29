@@ -72,15 +72,6 @@ class App extends Component {
     }
   }
 
-  componentDidMount() {
-    const { params } = this.props.match;
-    console.log(this.state.uid);
-    this.ref = base.syncDoc(`users/${params.userId}`, {
-        context: this,
-        state: 'votes'
-    });
-  }
-
   componentWillUnmount() {
     base.removeBinding(this.ref);
     // We stored reference to database in this.ref so we can remove it when we leave
@@ -89,15 +80,31 @@ class App extends Component {
 
   authHandler = async (authData) => {
     // Look up current store in firebase database
-    const user = await base.get(`users/${authData.user.uid}`, { context: this });
+    this.ref = base.syncDoc(`users/${authData.user.uid}`, {
+      context: this,
+      state: 'votes'
+    });
+    /*
     this.setState({
       uid: authData.user.uid
     });
+    */
+    let thisdoc = firebaseApp.firestore().collection('users').doc(authData.user.uid);
+    thisdoc.get().
+      then(mydoc => {
+        this.setState({
+          uid: authData.user.uid,
+          votes: {votes: mydoc.data().votes} // I mispelled votes in both state one and data().votes
+        })
+      })
+    // As soon as the state changes, the render() is automatically called. I wonder if I can put the sync first?
+    // Will setting votes re-call render and bring login page back? No.
   }
 
   authenticate = (provider) => {
     const authProvider = new firebase.auth[`${provider}AuthProvider`]();
     // WTF WHY DOES FIREBASE WORK BUT FIREBASEAPP NOT??? {firebaseApp} vs. firebaseApp...
+    console.log("About to set votes");
     firebase
       .auth()
       .signInWithPopup(authProvider)
@@ -113,11 +120,12 @@ class App extends Component {
       return (
         <React.Fragment>
           <NavBar />
-          <p>{console.log(this.state.votes)}</p>
           <h1 className="available-videos">
             Available Videos
           </h1>
+          {console.log("stuff is rendering")}
           <ul className="app-movielist">
+            {console.log(Array.isArray(this.state.votes))}
             {this.movie_list.map(key => (
               <MovieBlock
                 title={key}
