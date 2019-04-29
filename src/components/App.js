@@ -35,7 +35,6 @@ class App extends Component {
           if(!myDoc.exists) {
             console.log('No such document!');
           } else {
-            // console.log('Document data:', myDoc.data());
             movie_votes_temp = myDoc.data().voters;// movie_votes_temp is undefined for some reason
             movie_votes_temp.push(this.state.uid);
             thisdoc.set({
@@ -49,7 +48,6 @@ class App extends Component {
       this.setState({
         votes:temp
       });
-      //temp = this.state.votes.votes;
       let movie_votes_temp = [];
       let thisdoc = firebaseApp.firestore().collection('movie_votes').doc(title);
       thisdoc.get()
@@ -84,11 +82,6 @@ class App extends Component {
       context: this,
       state: 'votes'
     });
-    /*
-    this.setState({
-      uid: authData.user.uid
-    });
-    */
     let thisdoc = firebaseApp.firestore().collection('users').doc(authData.user.uid);
     thisdoc.get().
       then(mydoc => {
@@ -103,8 +96,6 @@ class App extends Component {
 
   authenticate = (provider) => {
     const authProvider = new firebase.auth[`${provider}AuthProvider`]();
-    // WTF WHY DOES FIREBASE WORK BUT FIREBASEAPP NOT??? {firebaseApp} vs. firebaseApp...
-    console.log("About to set votes");
     firebase
       .auth()
       .signInWithPopup(authProvider)
@@ -123,9 +114,7 @@ class App extends Component {
           <h1 className="available-videos">
             Available Videos
           </h1>
-          {console.log("stuff is rendering")}
           <ul className="app-movielist">
-            {console.log(Array.isArray(this.state.votes))}
             {this.movie_list.map(key => (
               <MovieBlock
                 title={key}
