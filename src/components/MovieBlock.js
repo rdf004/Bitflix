@@ -4,21 +4,16 @@ import React from 'react';
 class MovieBlock extends React.Component {
     constructor() {
         super();
-        this.state = {
-            voted: false,
-            text: "Vote",
-            color: "white",
-            loaded: false
-        }
         this.poster = '';
         this.summary = '';
         this.runtime = '';
         this.year = '';
         this.genre = '';
-
+        console.log(`Constructor`);
     }
 
     componentWillMount() {
+        console.log(`Component will mount ${this.props.title}`);
         if(this.props.userVoted === true) {
             let temp = {
                 voted: true,
@@ -45,12 +40,11 @@ class MovieBlock extends React.Component {
     }
 
     componentDidMount() {
+        console.log(`Component did mount ${this.props.title}`);
         let url = `http://www.omdbapi.com/?apikey=a3e4e704&t=${this.props.title}`
         fetch(url)
             .then((resp) => resp.json())
             .then( (data) => {
-                console.log(data['Poster']);
-                console.log(this);
                 this.poster = data['Poster'];
                 this.summary = data['Plot'];
                 this.runtime = data['Runtime']
@@ -66,7 +60,9 @@ class MovieBlock extends React.Component {
     }
 
     switchState = event => {
-        if(this.state.voted === false) {
+        event.preventDefault();
+        console.log(`Switch state ${this.props.title}`);
+        if(this.props.userVoted === false) {
             this.setState({voted: true, text: "Voted!", color: "red"})
             this.props.updateVotes(this.props.title, true, this.props.uid);
             
@@ -78,40 +74,32 @@ class MovieBlock extends React.Component {
 
 
     render() {
+        console.log(`render ${this.props.title} ${(new Date).getSeconds()}`)
         if(this.state.loaded === false) {
             return <div>Loading!</div>
         } else {
         return (
+            <div className="block-container">
             <div className="movieBlock-div">
                 <img className="movieBlock-poster" src={`${this.poster}`} />
-                {/*
-                <ul className="movieBlock-ul">
-                    <li className="movieBlock-li">
-                        <button 
-                            className="movieBlock-vote-button"
-                            onClick={this.switchState}
-                            style={{backgroundColor:this.state.color}}
-                        >
-                            {this.state.text}
-                        </button>
-                    </li>
-                    <li className="movieBlock-li">
-                        <h4 className="movieBlock-title">
-                            {this.props.title}
-                        </h4>
-                    </li>
-                    <li className="movieBlock-li">
-                        <h4 className="movieBlock-length">
-                            {this.runtime}
-                        </h4>
-                    </li>
-                    <li className="movieBlock-li">
-                        <h4 className="movieBlock-summary">
-                            {this.summary}
-                        </h4>
-                    </li>
-                </ul>
-                */}
+                <div className="overlay">
+                    <div className="text">
+                        <h2>{this.props.title}</h2>
+                        <h4>{this.runtime}</h4>
+                        <h4>{this.genre}</h4>
+                        {this.summary}
+                    </div>
+                </div>
+            </div>
+            <div className="vote-button-div">
+                <button 
+                    className="movieBlock-vote-button"
+                    onClick={this.switchState}
+                    style={this.props.userVoted ? {backgroundColor:"green"} : {backgroundColor:"black"}}
+                >
+                    {this.props.userVoted ? 'Voted!' : 'Vote'}
+                </button>
+            </div>
             </div>
         );
         }

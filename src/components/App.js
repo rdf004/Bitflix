@@ -29,6 +29,7 @@ class App extends Component {
   }
 
   updateVotes = (title, add) => {
+    console.log(`update votes ${title}`)
     if(add === true) {
       let temp = this.state.votes;
       temp.votes.push(title);
@@ -63,9 +64,7 @@ class App extends Component {
           if(!myDoc.exists) {
             console.log('No such document!');
           } else {
-            // console.log('Document data:', myDoc.data());
             movie_votes_temp = myDoc.data().voters;
-            //console.log(this.state.uid);
             let index = (movie_votes_temp.indexOf(this.state.uid));
             //console.log(index);
             movie_votes_temp.splice(index, 1)
@@ -112,32 +111,35 @@ class App extends Component {
 
 
   render() {
+    console.log("App render");
     if(!this.state.uid) {
       return <Login authenticate={this.authenticate} />
     } else {
       return (
         <React.Fragment>
           <NavBar />
+          <div className='video-div'>
+            <video className="background-video" loop autoPlay muted>
+              <source src={require("./borat_trailer1.mp4")} type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+          </div>
+          <div className="video-overlay-div">
+            <h1 className="home-featured-video">
+              BitFlix Feature Movie
+            </h1>
+            <h1 className="home-featured-video-title">
+              Borat
+            </h1>
+          </div>
           <h1 className="available-videos">
             Available Videos
           </h1>
           <SlideView 
             movie_names={this.movie_names}
             votes={this.state.votes.votes}
+            updateVotes={this.updateVotes}
           />
-          {/*
-          <ul className="app-movielist">
-            {this.movie_names.map(key => (
-              <MovieBlock
-                key={key}
-                title={key}
-                updateVotes={this.updateVotes}
-                uid={this.props.uid}
-                userVoted={this.state.votes.votes.includes(key) ? true : false}
-              />
-            ))}
-          </ul>
-            */}
         </React.Fragment>
       );
     }

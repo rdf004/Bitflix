@@ -6,12 +6,13 @@ import MovieBlock from './MovieBlock';
 
 export default class SlideView extends React.Component {
     render() {
+        console.log("slideview re rendering");
         return(
             <div className="slider-fragment">
                 <Slider className="slider-inner-slider"
                     speed={500}
-                    slidesToShow={5}
-                    slidesToScroll={3}
+                    slidesToShow={4}
+                    slidesToScroll={1}
                     infinite={true}
                     arrows={true}
                     centerMode={true}
@@ -24,7 +25,7 @@ export default class SlideView extends React.Component {
                     <MovieBlock
                         key={key}
                         title={key}
-                        updateVotes={this.updateVotes}
+                        updateVotes={this.props.updateVotes}
                         uid={this.props.uid}
                         userVoted={this.props.votes.includes(key) ? true : false}
                     />
