@@ -4,21 +4,29 @@ import MovieBlock from './MovieBlock';
 import base, { firebaseApp } from '../base'
 import Login from './Login';
 import * as firebase from 'firebase';
-import firestore from 'firebase/firestore';
+import SlideView from './SlideView';
 
 class App extends Component {
-
-  state = {
-    uid: null,
-    votes: null
+  movie_names = []
+  constructor() {
+    super();
+    this.state = {
+      isLoaded: false,
+      uid: null,
+      votes: null
+    }
+    let thisdoc = firebaseApp.firestore().collection('movie_names').doc('movie_names');
+    thisdoc.get()
+      .then(myDoc => {
+        if(!myDoc.exists) {
+          console.log("No such document");
+        } else {
+          this.movie_names = Object.keys(myDoc.data()).map(function(key) {
+            return myDoc.data()[key];
+          })
+        }
+        });
   }
-
-  movie_list = ["Django: Unchained", "Pulp Fiction"];
-
-  ACCOUNT_NAME = "roshandf";
-
-  django_summary = "Two years before the Civil War, Django (Jamie Foxx), a slave, finds himself accompanying an unorthodox German bounty hunter named Dr. King Schultz (Christoph Waltz) on a mission to capture the vicious Brittle brothers."
-  pf_summary = "Vincent Vega (John Travolta) and Jules Winnfield (Samuel L. Jackson) are hitmen with a penchant for philosophical discussions.";
 
   updateVotes = (title, add) => {
     if(add === true) {
@@ -83,8 +91,7 @@ class App extends Component {
       state: 'votes'
     });
     let thisdoc = firebaseApp.firestore().collection('users').doc(authData.user.uid);
-    thisdoc.get().
-      then(mydoc => {
+    thisdoc.get().then(mydoc => {
         this.setState({
           uid: authData.user.uid,
           votes: {votes: mydoc.data().votes} // I mispelled votes in both state one and data().votes
@@ -114,18 +121,23 @@ class App extends Component {
           <h1 className="available-videos">
             Available Videos
           </h1>
+          <SlideView 
+            movie_names={this.movie_names}
+            votes={this.state.votes.votes}
+          />
+          {/*
           <ul className="app-movielist">
-            {this.movie_list.map(key => (
+            {this.movie_names.map(key => (
               <MovieBlock
+                key={key}
                 title={key}
-                length={"1 hour"}
-                summary={"Summary"}
                 updateVotes={this.updateVotes}
                 uid={this.props.uid}
                 userVoted={this.state.votes.votes.includes(key) ? true : false}
               />
             ))}
           </ul>
+            */}
         </React.Fragment>
       );
     }
