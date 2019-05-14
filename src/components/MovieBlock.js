@@ -84,10 +84,10 @@ class MovieBlock extends React.Component {
                 <img className="movieBlock-poster" src={`${this.poster}`} />
                 <div className="overlay">
                     <div className="text">
-                        <h2>{this.props.title}</h2>
-                        <h4>{this.runtime}</h4>
-                        <h4>{this.genre}</h4>
-                        {this.summary}
+                        <h2 className="hover-text">{this.props.title}</h2>
+                        <h4 className="hover-text">{this.runtime}</h4>
+                        <h4 className="hover-text">{this.genre}</h4>
+                        <p className="hover-text-p">{this.summary}</p>
                     </div>
                 </div>
             </div>
