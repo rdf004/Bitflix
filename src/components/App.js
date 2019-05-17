@@ -84,6 +84,20 @@ class App extends Component {
 
 
   authHandler = async (authData) => {
+    var docExists = firebaseApp.firestore().collection('users').doc(authData.user.uid).get()
+      .then(doc => {
+        if(!doc.exists) {
+          var data = {
+            votes: []
+          };
+          base.addToCollection('users', data, authData.user.uid)
+            .then(() => {
+              console.log(`Success in adding ${authData.user.uid} to users`)
+            }).catch(err => {
+              alert(err);
+          });
+        }
+      })
     // Look up current store in firebase database
     this.ref = base.syncDoc(`users/${authData.user.uid}`, {
       context: this,

@@ -75,7 +75,7 @@ html, body {
 .video-overlay-div {
     position:absolute;
     top: 5%;
-    left: 22%;
+    left: 18vw;
     z-index:1;
 }
 
