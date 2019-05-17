@@ -13,7 +13,8 @@ class App extends Component {
     this.state = {
       isLoaded: false,
       uid: null,
-      votes: null
+      votes: null,
+      loggedIn: false
     }
     let thisdoc = firebaseApp.firestore().collection('movie_names').doc('movie_names');
     thisdoc.get()
@@ -92,24 +93,43 @@ class App extends Component {
           };
           base.addToCollection('users', data, authData.user.uid)
             .then(() => {
+              this.ref = base.syncDoc(`users/${authData.user.uid}`, {
+                context: this,
+                state: 'votes'
+              });
               console.log(`Success in adding ${authData.user.uid} to users`)
+              let thisdoc = firebaseApp.firestore().collection('users').doc(authData.user.uid);
+              thisdoc.get().then(mydoc => {
+                  console.log(mydoc.exists);
+                  this.setState({
+                    uid: authData.user.uid,
+                    votes: {votes: mydoc.data().votes},
+                    loggedIn: true
+                     // I mispelled votes in both state one and data().votes
+                  })
+              })
             }).catch(err => {
               alert(err);
           });
+        } else {
+          this.ref = base.syncDoc(`users/${authData.user.uid}`, {
+            context: this,
+            state: 'votes'
+          });
+          let thisdoc = firebaseApp.firestore().collection('users').doc(authData.user.uid);
+          thisdoc.get().then(mydoc => {
+            console.log(mydoc.exists);
+              this.setState({
+                uid: authData.user.uid,
+                votes: {votes: mydoc.data().votes},
+                loggedIn: true
+                 // I mispelled votes in both state one and data().votes
+              })
+            })
         }
-      })
+      });
     // Look up current store in firebase database
-    this.ref = base.syncDoc(`users/${authData.user.uid}`, {
-      context: this,
-      state: 'votes'
-    });
-    let thisdoc = firebaseApp.firestore().collection('users').doc(authData.user.uid);
-    thisdoc.get().then(mydoc => {
-        this.setState({
-          uid: authData.user.uid,
-          votes: {votes: mydoc.data().votes} // I mispelled votes in both state one and data().votes
-        })
-      })
+
     // As soon as the state changes, the render() is automatically called. I wonder if I can put the sync first?
     // Will setting votes re-call render and bring login page back? No.
   }
@@ -122,16 +142,28 @@ class App extends Component {
       .then(this.authHandler);
   }
 
+  logout = () => {
+    this.setState({
+      loggedIn: false
+    });
+    firebase.auth().signOut().then(function() {
+      // alert("Log out successful but you still ugly");
+      return true;
+    }, function(error) {
+      alert("Fuck you error");
+    });
+  }
+
 
 
   render() {
     console.log("App render");
-    if(!this.state.uid) {
+    if((!this.state.uid) || (this.state.loggedIn == false)) {
       return <Login authenticate={this.authenticate} />
     } else {
       return (
         <React.Fragment>
-          <NavBar />
+          <NavBar logout={this.logout}/>
           <div className='video-div'>
             <video className="background-video" loop autoPlay muted>
               <source src={require("./borat_trailer1.mp4")} type="video/mp4" />

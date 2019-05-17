@@ -7,7 +7,7 @@ const NavBar = props => (
                 <a className="navbar-al" href="/">BitFlix</a>
             </li>
             <li className="navbar-li">
-                <a className="navbar-a" href="/">Account</a>
+                <a className="navbar-a" onClick={props.logout}>Logout</a>
             </li>
             <li className="navbar-li">
                 <a className="navbar-a" href="/">Search</a>
