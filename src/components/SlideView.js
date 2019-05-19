@@ -5,8 +5,24 @@ import "../css/_slickTheme.css";
 import MovieBlock from './MovieBlock';
 
 export default class SlideView extends React.Component {
+
+    createElements = () => {
+        var elements = [];
+        console.log(this.props.movie_names_votes);
+        {console.log(this.props.votes);}
+        for (let [movie_name, movie_votes] of Object.entries(this.props.movie_names_votes)) {
+            elements.push(<MovieBlock
+                key={movie_name}
+                title={movie_name}
+                updateVotes={this.props.updateVotes}
+                uid={this.props.uid}
+                userVoted={this.props.votes.votes.includes(movie_name) ? true : false}
+            />);
+        }
+        return elements
+    }
+
     render() {
-        console.log("slideview re rendering");
         return(
             <div className="slider-fragment">
                 <Slider className="slider-inner-slider"
@@ -21,15 +37,10 @@ export default class SlideView extends React.Component {
                     infinite={true}
 
                 >
-                {this.props.movie_names.map(key => (
-                    <MovieBlock
-                        key={key}
-                        title={key}
-                        updateVotes={this.props.updateVotes}
-                        uid={this.props.uid}
-                        userVoted={this.props.votes.includes(key) ? true : false}
-                    />
-                ))}
+                {console.log(this.props.movie_names_votes)}
+                {console.log(this.props.movie_names)}
+                { this.createElements(this.props.movie_names_votes) }
+
                 </Slider>
             </div>
         );

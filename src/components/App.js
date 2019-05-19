@@ -7,35 +7,25 @@ import * as firebase from 'firebase';
 import SlideView from './SlideView';
 
 class App extends Component {
-  movie_names = []
   constructor() {
     super();
     this.state = {
       isLoaded: false,
       uid: null,
       votes: null,
-      loggedIn: false
+      loggedIn: false,
+      movies: null
     }
     let thisdoc = firebaseApp.firestore().collection('movie_names').doc('movie_names');
-    thisdoc.get()
-      .then(myDoc => {
-        if(!myDoc.exists) {
-          console.log("No such document");
-        } else {
-          this.movie_names = Object.keys(myDoc.data()).map(function(key) {
-            return myDoc.data()[key];
-          })
-        }
-        });
   }
 
   updateVotes = (title, add) => {
     console.log(`update votes ${title}`)
     if(add === true) {
-      let temp = this.state.votes;
-      temp.votes.push(title);
+      let temp = this.state.votes.votes;
+      temp.push(title);
       this.setState({
-        votes:temp
+        votes: {votes: temp, total_spent: (this.state.votes.total_spent + this.state.movies[title])}
       });
       //temp = this.state.votes.votes;
       let movie_votes_temp = [];
@@ -53,10 +43,10 @@ class App extends Component {
           }
         });
     } else {
-      let temp = this.state.votes;
-      temp.votes.splice(temp.votes.indexOf(title), 1);
+      let temp = this.state.votes.votes;
+      temp.splice(temp.indexOf(title), 1);
       this.setState({
-        votes:temp
+        votes: {votes: temp, total_spent: (this.state.votes.total_spent - this.state.movies[title])}
       });
       let movie_votes_temp = [];
       let thisdoc = firebaseApp.firestore().collection('movie_votes').doc(title);
@@ -80,6 +70,7 @@ class App extends Component {
 
   componentWillUnmount() {
     base.removeBinding(this.ref);
+    base.removeBinding(this.moviesRef);
     // We stored reference to database in this.ref so we can remove it when we leave
   }
 
@@ -89,7 +80,8 @@ class App extends Component {
       .then(doc => {
         if(!doc.exists) {
           var data = {
-            votes: []
+            votes: [],
+            total_spent: 0
           };
           base.addToCollection('users', data, authData.user.uid)
             .then(() => {
@@ -103,7 +95,7 @@ class App extends Component {
                   console.log(mydoc.exists);
                   this.setState({
                     uid: authData.user.uid,
-                    votes: {votes: mydoc.data().votes},
+                    votes: {votes: mydoc.data().votes, total_spent: mydoc.data().total_spent},
                     loggedIn: true
                      // I mispelled votes in both state one and data().votes
                   })
@@ -114,19 +106,32 @@ class App extends Component {
         } else {
           this.ref = base.syncDoc(`users/${authData.user.uid}`, {
             context: this,
-            state: 'votes'
+            state: 'votes',
           });
           let thisdoc = firebaseApp.firestore().collection('users').doc(authData.user.uid);
           thisdoc.get().then(mydoc => {
-            console.log(mydoc.exists);
               this.setState({
                 uid: authData.user.uid,
-                votes: {votes: mydoc.data().votes},
+                votes: {votes: mydoc.data().votes, total_spent: mydoc.data().total_spent}, // You have to redo it because syncState only mirrors the next movements
                 loggedIn: true
                  // I mispelled votes in both state one and data().votes
               })
             })
         }
+        // Sync movies and vote prices
+        this.moviesRef = base.syncDoc('movie_names/movie_names', {
+          context: this,
+          state: 'movies'
+        });
+        // Set movies and prices in state
+        let moviesDoc = firebaseApp.firestore().collection('movie_names').doc('movie_names');
+        moviesDoc.get().then(mydoc => {
+          this.setState({
+            movies: mydoc.data()
+          })
+          console.log(`Did step, state.movies is ${this.state.movies}`);
+        })
+
       });
     // Look up current store in firebase database
 
@@ -147,7 +152,6 @@ class App extends Component {
       loggedIn: false
     });
     firebase.auth().signOut().then(function() {
-      // alert("Log out successful but you still ugly");
       return true;
     }, function(error) {
       alert("Fuck you error");
@@ -157,12 +161,13 @@ class App extends Component {
 
 
   render() {
-    console.log("App render");
+    // console.log("App render");
     if((!this.state.uid) || (this.state.loggedIn == false)) {
       return <Login authenticate={this.authenticate} />
     } else {
       return (
         <React.Fragment>
+          {console.log(this.state)}
           <NavBar logout={this.logout}/>
           <div className='video-div'>
             <video className="background-video" loop autoPlay muted>
@@ -182,9 +187,9 @@ class App extends Component {
             Available Videos
           </h1>
           <SlideView 
-            movie_names={this.movie_names}
-            votes={this.state.votes.votes}
+            votes={this.state.votes}
             updateVotes={this.updateVotes}
+            movie_names_votes={this.state.movies}
           />
         </React.Fragment>
       );

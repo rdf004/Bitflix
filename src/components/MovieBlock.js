@@ -9,11 +9,11 @@ class MovieBlock extends React.Component {
         this.runtime = '';
         this.year = '';
         this.genre = '';
-        console.log(`Constructor`);
+        // console.log(`Constructor`);
     }
 
     componentWillMount() {
-        console.log(`Component will mount ${this.props.title}`);
+        // console.log(`Component will mount ${this.props.title}`);
         if(this.props.userVoted === true) {
             let temp = {
                 voted: true,
@@ -40,7 +40,7 @@ class MovieBlock extends React.Component {
     }
 
     componentDidMount() {
-        console.log(`Component did mount ${this.props.title}`);
+        // console.log(`Component did mount ${this.props.title}`);
         let url = `http://www.omdbapi.com/?apikey=a3e4e704&t=${this.props.title}`
         fetch(url)
             .then((resp) => resp.json())
@@ -61,7 +61,7 @@ class MovieBlock extends React.Component {
 
     switchState = event => {
         event.preventDefault();
-        console.log(`Switch state ${this.props.title}`);
+        // console.log(`Switch state ${this.props.title}`);
         if(this.props.userVoted === false) {
             this.setState({voted: true, text: "Voted!", color: "red"})
             this.props.updateVotes(this.props.title, true, this.props.uid);
@@ -74,7 +74,7 @@ class MovieBlock extends React.Component {
 
 
     render() {
-        console.log(`render ${this.props.title} ${(new Date).getSeconds()}`)
+        // console.log(`render ${this.props.title} ${(new Date).getSeconds()}`)
         if(this.state.loaded === false) {
             return <div>Loading!</div>
         } else {
