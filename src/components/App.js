@@ -5,6 +5,7 @@ import base, { firebaseApp } from '../base'
 import Login from './Login';
 import * as firebase from 'firebase';
 import SlideView from './SlideView';
+import DonutChart from 'react-donut-chart';
 
 class App extends Component {
   constructor() {
@@ -119,19 +120,12 @@ class App extends Component {
             })
         }
         // Sync movies and vote prices
+        /*
         this.moviesRef = base.syncDoc('movie_names/movie_names', {
           context: this,
           state: 'movies'
         });
-        // Set movies and prices in state
-        let moviesDoc = firebaseApp.firestore().collection('movie_names').doc('movie_names');
-        moviesDoc.get().then(mydoc => {
-          this.setState({
-            movies: mydoc.data()
-          })
-          console.log(`Did step, state.movies is ${this.state.movies}`);
-        })
-
+        */
       });
     // Look up current store in firebase database
 
@@ -158,13 +152,28 @@ class App extends Component {
     });
   }
 
+  componentDidMount() {
+      // Set movies and prices in state
+    let moviesDoc = firebaseApp.firestore().collection('movie_names').doc('movie_names');
+    moviesDoc.get().then(mydoc => {
+      this.setState({
+        movies: mydoc.data()
+      });
+      console.log(`Did step, state.movies is ${this.state.movies}`);
+    })
+  }
 
 
   render() {
     // console.log("App render");
     if((!this.state.uid) || (this.state.loggedIn == false)) {
       return <Login authenticate={this.authenticate} />
-    } else {
+    } 
+    /*else if (!this.state.movie_names_votes) {
+      return <h1>Loading</h1> 
+    } 
+    */
+    else {
       return (
         <React.Fragment>
           {console.log(this.state)}
@@ -190,6 +199,20 @@ class App extends Component {
             votes={this.state.votes}
             updateVotes={this.updateVotes}
             movie_names_votes={this.state.movies}
+          />
+          <h1 className="available-videos">
+            Votes
+          </h1>
+          <DonutChart className="donutchart"
+            data={[{
+              label: 'Votes Used',
+              value: this.state.votes.total_spent
+            },
+          {
+            label: 'Votes Left',
+            value: (600 - this.state.votes.total_spent)
+          }]} 
+            colors={['#08FF00', 'gray']}
           />
         </React.Fragment>
       );

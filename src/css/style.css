@@ -276,3 +276,33 @@ html, body {
 .slider-fragment {
     width: 90%;
 }
+
+.donutchart-innertext {
+    color: white !important;
+}
+
+.donutchart-legend {
+    color: white !important;
+    border: 2px solid green;
+}
+
+.donutchart {
+    color: white !important;
+    color: inherit;
+    background-color: white;
+    margin: 32px 32px;
+    padding: 32px 32px;
+}
+
+
+
+.donutchart-innertext-value {
+    color: white;
+    font-family: 'SF-Regular';
+    font-size: 18pt;
+}
+
+.donutchart-legend {
+    font-family: 'SF-Heavy';
+    color: red !important;
+}
