@@ -29,16 +29,13 @@ export default class SlideView extends React.Component {
                     speed={500}
                     slidesToShow={4}
                     slidesToScroll={1}
-                    infinite={true}
+                    infinite={false}
                     arrows={true}
-                    centerMode={true}
+                    centerMode={false}
                     draggable={true}
                     focusOnSelect={true}
-                    infinite={true}
 
                 >
-                {console.log(this.props.movie_names_votes)}
-                {console.log(this.props.movie_names)}
                 { this.createElements(this.props.movie_names_votes) }
 
                 </Slider>

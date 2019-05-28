@@ -195,7 +195,7 @@ class App extends Component {
           <h1 className="available-videos">
             Available Videos
           </h1>
-          <SlideView 
+          <SlideView className="slideview-on-app"
             votes={this.state.votes}
             updateVotes={this.updateVotes}
             movie_names_votes={this.state.movies}
