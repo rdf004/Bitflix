@@ -63,7 +63,6 @@ html, body {
     width: 100%;
     /*height: 600px;*/
     height: 65vh;
-    border: 1px solid red;
 }
 
 .video-div {
@@ -75,7 +74,7 @@ html, body {
 
 .video-overlay-div {
     position:absolute;
-    top: 5%;
+    top: 10%;
     left: 25vw;
     z-index:1;
 }
@@ -312,4 +311,21 @@ html, body {
 .donutchart-legend {
     font-family: 'SF-Heavy';
     color: red !important;
+}
+
+.progressbar {
+    width: 80vw;
+    color: white;
+    margin-left: 32px;
+}
+
+.progress-available-movies {
+    width: 80vw;
+    color: white;
+    margin-left: 35px;
+}
+
+.votes-left {
+    color: white;
+    margin-left: 35px;
 }

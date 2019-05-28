@@ -5,7 +5,8 @@ import base, { firebaseApp } from '../base'
 import Login from './Login';
 import * as firebase from 'firebase';
 import SlideView from './SlideView';
-import DonutChart from 'react-donut-chart';
+import { Progress } from 'react-sweet-progress';
+import "react-sweet-progress/lib/style.css";
 
 class App extends Component {
   constructor() {
@@ -195,6 +196,8 @@ class App extends Component {
           <h1 className="available-videos">
             Available Videos
           </h1>
+          <h3 className="votes-left" >Votes Left:</h3>
+          <Progress className="progress-available-movies" percent={this.state.votes.total_spent/600*100} status="active" />
           <SlideView className="slideview-on-app"
             votes={this.state.votes}
             updateVotes={this.updateVotes}
@@ -203,17 +206,10 @@ class App extends Component {
           <h1 className="available-videos">
             Votes
           </h1>
-          <DonutChart className="donutchart"
-            data={[{
-              label: 'Votes Used',
-              value: this.state.votes.total_spent
-            },
-          {
-            label: 'Votes Left',
-            value: (600 - this.state.votes.total_spent)
-          }]} 
-            colors={['#08FF00', 'gray']}
-          />
+          <div className="progressbar">
+            <Progress percent={this.state.votes.total_spent/600*100} status="active" />
+          </div>
+          
         </React.Fragment>
       );
     }
