@@ -194,24 +194,26 @@ class App extends Component {
             </h1>
           </div>
           <div className="available-vids-div">
-          <h1 className="available-videos">
-            Available Videos
-          </h1>
-          <h3 className="votes-left" >Votes Left:</h3>
-          <Progress className="progress-available-movies" percent={Math.round( (this.state.votes.total_spent/600*100) * 10)/10 } status="active" />
-          <SlideView className="slideview-on-app"
-            votes={this.state.votes}
-            updateVotes={this.updateVotes}
-            movie_names_votes={this.state.movies}
-          />
+            <h1 className="available-videos">
+              Available Videos
+            </h1>
+            <div className="votes-left-in-available-vids">
+              <h3 className="votes-left" >Votes Left:</h3>
+              <Progress className="progress-available-movies" percent={Math.round( (this.state.votes.total_spent/600*100) * 10)/10 } status="active" />
+            </div>
+            <SlideView className="slideview-on-app"
+              votes={this.state.votes}
+              updateVotes={this.updateVotes}
+              movie_names_votes={this.state.movies}
+            />
           </div>
           <div className="votes-div">
-          <h1 className="available-videos">
-            Votes Used
-          </h1>
-          <div className="progressbar">
-            <Progress percent={Math.round( (this.state.votes.total_spent/600*100) * 10)/10 } status="active" />
-          </div>
+            <h1 className="available-videos">
+              Votes Used
+            </h1>
+            <div className="progressbar">
+              <Progress percent={Math.round( (this.state.votes.total_spent/600*100) * 10)/10 } status="active" />
+            </div>
           </div>
           
         </React.Fragment>

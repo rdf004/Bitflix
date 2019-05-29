@@ -91,6 +91,15 @@ html, body {
     color: white;
 }
 
+.votes-left-in-available-vids {
+    background-color: #1b1b1b;
+    padding-top: 1px;
+    padding-bottom: 5px;
+    margin-left: 32px;
+    margin-right: 2vw;
+    border-radius: 20px;
+}
+
 /* MovieBlock.js */
 
 .movieBlock-div {
