@@ -8,8 +8,8 @@ export default class SlideView extends React.Component {
 
     createElements = () => {
         var elements = [];
-        console.log(this.props.movie_names_votes);
-        {console.log(this.props.votes);}
+        // console.log(this.props.movie_names_votes);
+        // {console.log(this.props.votes);}
         for (let [movie_name, movie_votes] of Object.entries(this.props.movie_names_votes)) {
             elements.push(<MovieBlock
                 key={movie_name}
