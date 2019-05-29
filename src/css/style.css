@@ -98,6 +98,8 @@ html, body {
     margin-left: 32px;
     margin-right: 2vw;
     border-radius: 20px;
+    margin-top: 30px;
+    margin-bottom: 30px;
 }
 
 /* MovieBlock.js */
