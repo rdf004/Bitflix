@@ -45,6 +45,7 @@
     outline: none;
     background: black;
     border-radius: 50%;
+    z-index: 999;
 }
 .slick-prev:hover,
 .slick-prev:focus,

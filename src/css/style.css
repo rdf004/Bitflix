@@ -129,6 +129,7 @@ html, body {
     width: 100px;
     max-width: 80%;
     padding: 4px 4px;
+    margin-top: 15px;
     border: 0.5px solid black;
     text-align: center;
 }
@@ -192,13 +193,14 @@ html, body {
 .block-container {
     /* bruh */
     /* width: 15vw; */
-    /*
+
     background-color: #1b1b1b;
-    margin: 4px 20px;
+    margin: 4px 1vw;
     padding-top: 10px;
-    padding-bottom: 15px; 
+    padding-bottom: 15px;
+     
     border-radius: 20px;
-    */
+    
 }
 
 .vote-button-div {
@@ -306,4 +308,15 @@ html, body {
 .votes-left {
     color: white;
     margin-left: 35px;
+}
+
+.votes-div {
+    width: 100vw;
+    background-color:black;
+    padding-top: 10px;
+    padding-bottom: 50px;
+    margin-top: 60px;
+    text-align: center;
+    border-top-right-radius: 40px;
+    border-top-left-radius: 40px;
 }

@@ -205,11 +205,13 @@ class App extends Component {
             movie_names_votes={this.state.movies}
           />
           </div>
+          <div className="votes-div">
           <h1 className="available-videos">
-            Votes
+            Votes Used
           </h1>
           <div className="progressbar">
             <Progress percent={Math.round( (this.state.votes.total_spent/600*100) * 10)/10 } status="active" />
+          </div>
           </div>
           
         </React.Fragment>
