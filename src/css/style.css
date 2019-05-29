@@ -122,13 +122,15 @@ html, body {
 
 .movieBlock-vote-button {
     text-decoration: none;
-    /*margin: 20px 20px;*/
     font-family: 'SF-Regular';
-    font-size: 24px;
+    font-size: 18px;
     border-radius: 10px;
     color: white;
     width: 100px;
-    max-width: 100%;
+    max-width: 80%;
+    padding: 4px 4px;
+    border: 0.5px solid black;
+    text-align: center;
 }
 
 .movieBlock-vote-button:hover {
@@ -189,12 +191,18 @@ html, body {
 
 .block-container {
     /* bruh */
-    width: 15vw;
+    /* width: 15vw; */
+    /*
+    background-color: #1b1b1b;
+    margin: 4px 20px;
+    padding-top: 10px;
+    padding-bottom: 15px; 
+    border-radius: 20px;
+    */
 }
 
 .vote-button-div {
     /*border: 2px solid green;*/
-    margin: 10px;
     width: 100%;
     text-align: center;
 }
@@ -281,36 +289,6 @@ html, body {
 
 .slider-fragment {
     width: 90%;
-}
-
-.donutchart-innertext {
-    color: white !important;
-}
-
-.donutchart-legend {
-    color: white !important;
-    border: 2px solid green;
-}
-
-.donutchart {
-    color: white !important;
-    color: inherit;
-    background-color: white;
-    margin: 32px 32px;
-    padding: 32px 32px;
-}
-
-
-
-.donutchart-innertext-value {
-    color: white !important;
-    font-family: 'SF-Regular';
-    font-size: 18pt;
-}
-
-.donutchart-legend {
-    font-family: 'SF-Heavy';
-    color: red !important;
 }
 
 .progressbar {

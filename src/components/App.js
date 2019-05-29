@@ -193,21 +193,23 @@ class App extends Component {
               Borat
             </h1>
           </div>
+          <div className="available-vids-div">
           <h1 className="available-videos">
             Available Videos
           </h1>
           <h3 className="votes-left" >Votes Left:</h3>
-          <Progress className="progress-available-movies" percent={this.state.votes.total_spent/600*100} status="active" />
+          <Progress className="progress-available-movies" percent={Math.round( (this.state.votes.total_spent/600*100) * 10)/10 } status="active" />
           <SlideView className="slideview-on-app"
             votes={this.state.votes}
             updateVotes={this.updateVotes}
             movie_names_votes={this.state.movies}
           />
+          </div>
           <h1 className="available-videos">
             Votes
           </h1>
           <div className="progressbar">
-            <Progress percent={this.state.votes.total_spent/600*100} status="active" />
+            <Progress percent={Math.round( (this.state.votes.total_spent/600*100) * 10)/10 } status="active" />
           </div>
           
         </React.Fragment>
