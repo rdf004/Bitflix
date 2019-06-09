@@ -113,8 +113,7 @@ class App extends Component {
     });
   }
 
-  componentDidMount() {
-      // Set movies and prices in state
+  componentWillMount() {
     var user = firebase.auth().currentUser;
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
@@ -125,6 +124,10 @@ class App extends Component {
         console.log("Bruh");
       }
     });
+  }
+
+  componentDidMount() {
+      // Set movies and prices in state
     /*
     if(user) {
       console.log("Fuq");
@@ -147,8 +150,6 @@ class App extends Component {
       console.log("Fuck");
     }
     */
-
-
   }
 
   setup = (uid) => {
@@ -236,7 +237,7 @@ class App extends Component {
             Available Videos
           </h1>
           <div className="votes-left-in-available-vids">
-            <h3 className="votes-left" >Votes Left:</h3>
+            <h3 className="votes-left" >Votes Used:</h3>
             {console.log(this.state)}
             <Progress className="progress-available-movies" percent={Math.round( (this.state.votes.total_spent/600*100) * 10)/10 } status="active" />
           </div>
@@ -245,15 +246,6 @@ class App extends Component {
             updateVotes={this.updateVotes}
             movie_names_votes={this.state.movies}
           />
-        </div>
-        <div className="votes-div">
-          <h1 className="available-videos">
-            Votes Used
-          </h1>
-          <div className="progressbar">
-            {console.log(this.state)}
-            <Progress percent={Math.round( (this.state.votes.total_spent/600*100) * 10)/10 } status="active" />
-          </div>
         </div>
         
       </React.Fragment>
@@ -265,6 +257,16 @@ class App extends Component {
 export default App;
 
 /*
+
+        <div className="votes-div">
+          <h1 className="available-videos">
+            Votes Used
+          </h1>
+          <div className="progressbar">
+            {console.log(this.state)}
+            <Progress percent={Math.round( (this.state.votes.total_spent/600*100) * 10)/10 } status="active" />
+          </div>
+        </div>
 
   render() {
     // console.log("App render");
